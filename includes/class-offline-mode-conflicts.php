@@ -134,6 +134,16 @@ class Offline_Mode_Conflicts {
 			);
 		}
 
+		foreach ( array( 'index.html', 'index.htm', 'maintenance.html', 'maintenance.htm' ) as $file ) {
+			if ( file_exists( ABSPATH . $file ) ) {
+				$problems[] = sprintf(
+					/* translators: %s: file path. */
+					__( '%s is a static page that the web server may show before WordPress runs. Delete it if it belongs to an old plugin.', 'offline-mode' ),
+					'<code>' . esc_html( ABSPATH . $file ) . '</code>'
+				);
+			}
+		}
+
 		if ( ! function_exists( 'get_mu_plugins' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}

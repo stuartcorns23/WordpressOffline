@@ -45,6 +45,7 @@ Copy this folder to `wp-content/plugins/offline-mode` (or upload it as a zip fro
 A deleted maintenance plugin can leave things behind that still run. The settings page warns about each of these when it finds them:
 
 - `wp-content/maintenance.php` or a `.maintenance` file in the WordPress root
+- a static `index.html` or `maintenance.html` in the WordPress root, which the web server can show before WordPress runs
 - a must-use plugin in `wp-content/mu-plugins` (these keep running after the main plugin is deleted)
 - another active maintenance or coming soon plugin
 - a maintenance redirect in `.htaccess`
