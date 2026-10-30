@@ -39,3 +39,16 @@ Copy this folder to `wp-content/plugins/offline-mode` (or upload it as a zip fro
 
 - `offline_mode_view_data` (array, mode) — filter the values passed to the landing page template.
 - Override the template by copying `templates/landing.php` to `your-theme/offline-mode/landing.php`.
+
+## Troubleshooting: visitors see another plugin's page
+
+A deleted maintenance plugin can leave things behind that still run. The settings page warns about each of these when it finds them:
+
+- `wp-content/maintenance.php` or a `.maintenance` file in the WordPress root
+- a static `index.html` or `maintenance.html` in the WordPress root, which the web server can show before WordPress runs
+- a must-use plugin in `wp-content/mu-plugins` (these keep running after the main plugin is deleted)
+- another active maintenance or coming soon plugin
+- a maintenance redirect in `.htaccess`
+- a page cache still holding the old page
+
+Offline Mode clears common page caches (WP Rocket, W3 Total Cache, WP Super Cache, WP Fastest Cache, LiteSpeed, SiteGround, WP Engine, Cache Enabler, Breeze, Nginx Helper) whenever you save its settings, and again at the automatic launch time. Host and CDN caches such as Cloudflare need clearing by hand.
