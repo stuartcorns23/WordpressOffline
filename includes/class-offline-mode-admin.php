@@ -157,6 +157,7 @@ class Offline_Mode_Admin {
 				<?php esc_html_e( 'Visitors see the landing page while a mode is on. Logged-in users bypass it and see the site as normal.', 'offline-mode' ); ?>
 				<a href="<?php echo esc_url( $preview_url ); ?>" class="button button-secondary" target="_blank" rel="noopener"><?php esc_html_e( 'Preview landing page', 'offline-mode' ); ?></a>
 			</p>
+			<?php $this->render_conflicts(); ?>
 			<form action="options.php" method="post">
 				<?php
 				settings_fields( self::PAGE );
@@ -164,6 +165,26 @@ class Offline_Mode_Admin {
 				submit_button();
 				?>
 			</form>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Warn about leftovers from other maintenance plugins.
+	 */
+	private function render_conflicts() {
+		$problems = Offline_Mode_Conflicts::detect();
+		if ( ! $problems ) {
+			return;
+		}
+		?>
+		<div class="notice notice-warning inline">
+			<p><strong><?php esc_html_e( 'Visitors may see a different maintenance page than this one:', 'offline-mode' ); ?></strong></p>
+			<ul style="list-style:disc;padding-left:20px;">
+				<?php foreach ( $problems as $problem ) : ?>
+					<li><?php echo wp_kses( $problem, array( 'code' => array(), 'strong' => array() ) ); ?></li>
+				<?php endforeach; ?>
+			</ul>
 		</div>
 		<?php
 	}
